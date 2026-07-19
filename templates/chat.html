@@ -20,7 +20,7 @@
       h1.page-title {
         text-align: center;
         font-size: 28px;
-        margin-top: 0px !important; /* Moves title lower */
+        margin-top: 0px !important;
         padding-bottom: 0px;
         color: black;
         width: 100%;
@@ -33,10 +33,10 @@
         gap: 15px;
         width: 95%;
         max-width: 1400px;
-        height: 85vh; /* Fixed height for both containers */
+        height: 85vh;
         border-radius: 8px;
         padding: 10px;
-        align-items: stretch; /* Ensures both columns have the same height */
+        align-items: stretch;
       }
 
       #paramContainer,
@@ -70,7 +70,7 @@
         display: flex;
         align-items: center;
         width: 100%;
-        justify-content: flex-start; /* Aligns button to the right */
+        justify-content: flex-start;
       }
 
       input[type="text"] {
@@ -109,7 +109,7 @@
       }
 
       #responseDisplay {
-        min-height: 250px; /* Prevents shrinking */
+        min-height: 250px;
         height: auto;
         overflow-y: auto;
         border: 2px solid #ccc;
@@ -148,11 +148,11 @@
       }
 
       button.clear-button {
-        background-color: #ffa500; /* Orange color */
+        background-color: #ffa500;
       }
 
       button.clear-button:hover {
-        background-color: #e69500; /* Darker orange on hover */
+        background-color: #e69500;
       }
 
       .param-group {
@@ -163,18 +163,18 @@
       }
 
       .param-group label {
-        flex: 1; /* Allows label to take available space */
+        flex: 1;
       }
 
       .param-group input[type="range"] {
-        flex: 2; /* Ensures slider takes up more space */
+        flex: 2;
         margin: 0 10px;
       }
 
       .param-group output {
-        flex: 0.5; /* Ensures output stays in the same line */
+        flex: 0.5;
         text-align: right;
-        min-width: 40px; /* Prevents shifting */
+        min-width: 40px;
       }
 
       #queryContainer h2 {
@@ -193,7 +193,7 @@
       #chatModel {
         font-size: 14px;
         padding: 6px;
-        width: fit-content; /* shrink to fit content */
+        width: fit-content;
         max-width: 100%;
         border-radius: 6px;
         border: 1px solid #ccc;
@@ -201,7 +201,7 @@
       }
       .nav-button-container {
         display: flex;
-        justify-content: flex-end; /* Aligns the button to the right */
+        justify-content: flex-end;
         width: 95%;
         position: absolute;
         padding-right: -50px;
@@ -234,7 +234,7 @@
         padding: 10px;
         font-size: 14px;
         font-weight: bold;
-        background-color: #28a745; /* Green color */
+        background-color: #28a745;
         color: white;
         border: none;
         border-radius: 5px;
@@ -242,7 +242,7 @@
       }
 
       #backButton:hover {
-        background-color: #218838; /* Darker green on hover */
+        background-color: #218838;
       }
     </style>
   </head>
@@ -255,16 +255,6 @@
 
     <div class="container">
       <div id="paramContainer">
-        <!-- <p><b>Choose a Model:</b></p>
-        <select id="chatModel"> -->
-        <!-- <option value="gpt2">GPT-2</option> -->
-        <!-- <option value="gpt2-medium" selected>GPT-2 Medium</option> -->
-        <!-- <option value="gpt-neo">GPT-Neo 1.3B</option> -->
-        <!-- <option value="flan-t5-large">Flan-T5 Large</option> -->
-        <!-- <option value="SmolLM-360M">SmolLM (360M)</option> -->
-        <!-- <option value="TinyLlama-1.1B">TinyLlama (1.1B)</option> -->
-        <!-- <option value="Qwen2.5-1.5B">Qwen2 (1.5B)</option> -->
-        <!-- </select> -->
         <h2>Parameter Guide</h2>
         <p>
           <b>Temperature:</b> Controls how random AI's answers are. <br />🔽 Low
@@ -279,12 +269,12 @@
             id="chatTemperature"
             name="temperature"
             min="0"
-            max="2"
+            max="4"
             step="0.1"
-            value="0.7"
+            value="1"
             oninput="this.nextElementSibling.value = this.value"
           />
-          <output>0.7</output>
+          <output>1</output>
         </div>
         <p>
           <b>Top-P:</b> Limits AI's word choices. <br />🔽 Low = If p=0.1 AI
@@ -328,7 +318,9 @@
       </div>
     </div>
     <div id="backButtonContainer">
-      <button id="backButton" onclick="goBack()">← Back to Prediction</button>
+      <button id="backButton" onclick="goBack()">
+        ← Back to Text Generation
+      </button>
     </div>
     <script>
       localStorage.setItem("user_id", "{{ user_id }}");
@@ -339,15 +331,7 @@
           return (window.location.href = "/");
         }
 
-        // 1) trigger file download
-        const link = document.createElement("a");
-        link.href = `/download_user_data/${userId}`;
-        link.download = `${userId}.json`;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-
-        // 2) clear session and go home
+        // Clear the session and go home
         localStorage.removeItem("user_id");
         window.location.href = "/";
       }
@@ -391,59 +375,11 @@
           })
           .then((data) => {
             document.getElementById("responseDisplay").innerHTML = data.answer;
-            // Attention data fetch call removed
           })
           .catch((err) => {
             console.error("Error in sendQuery:", err);
             alert("Something went wrong. Try again.");
           });
-      }
-
-      // renderAttentionChart function removed
-
-      async function submitChatReflection() {
-        const q6 = document.getElementById("chat_q1").value.trim();
-        const q7 = document.getElementById("chat_q2").value.trim();
-        const q8 = document.getElementById("chat_q3").value.trim();
-        const userId = localStorage.getItem("user_id");
-
-        if (!q6 && !q7 && !q8) {
-          alert("Please answer at least one question before logging out.");
-          return;
-        }
-
-        try {
-          const response = await fetch("/save_reflection", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              user_id: userId,
-              reflection_answer: { q6, q7, q8 },
-            }),
-          });
-
-          if (response.ok) {
-            // Trigger download
-            const downloadLink = document.createElement("a");
-            downloadLink.href = `/download_user_data/${userId}`;
-            downloadLink.download = `${userId}.json`;
-            downloadLink.style.display = "none";
-            document.body.appendChild(downloadLink);
-            downloadLink.click();
-            document.body.removeChild(downloadLink);
-
-            // Clear user ID and redirect
-            setTimeout(() => {
-              localStorage.removeItem("user_id");
-              window.location.href = "/";
-            }, 1000); // wait a second to ensure download starts
-          } else {
-            alert("Failed to save reflection.");
-          }
-        } catch (err) {
-          console.error("Error submitting reflection:", err);
-          alert("Something went wrong. Please try again.");
-        }
       }
 
       function goBack() {
