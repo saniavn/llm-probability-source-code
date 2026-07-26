@@ -124,9 +124,12 @@
         position: absolute;
         top: 10px;
         right: 20px;
+        display: flex;
+        gap: 8px;
       }
 
-      #logoutButton {
+      #logoutButton,
+      #aboutButton {
         padding: 10px;
         font-size: 14px;
         font-weight: bold;
@@ -135,10 +138,15 @@
         border: none;
         border-radius: 5px;
         cursor: pointer;
+        margin-left: 0;
       }
 
       #logoutButton:hover {
         background-color: #cc0000;
+      }
+
+      #aboutButton:hover {
+        background-color: #cc7000;
       }
 
       #responseDisplay,
@@ -250,7 +258,8 @@
     <h1 class="page-title">Chat with AI</h1>
 
     <div id="logoutContainer">
-      <button id="logoutButton" onclick="logout()">Log Out</button>
+      <button id="aboutButton" onclick="goToAbout()">About</button>
+      <!-- <button id="logoutButton" onclick="logout()">Exit</button> -->
     </div>
 
     <div class="container">
@@ -319,21 +328,32 @@
     </div>
     <div id="backButtonContainer">
       <button id="backButton" onclick="goBack()">
-        ← Back to Text Generation
+        ← Back to Next Token Generation
       </button>
     </div>
     <script>
       localStorage.setItem("user_id", "{{ user_id }}");
 
       function logout() {
-        const userId = localStorage.getItem("user_id");
-        if (!userId) {
-          return (window.location.href = "/");
+        localStorage.removeItem("user_id");
+
+        try {
+          window.open("", "_self");
+          window.close();
+        } catch (e) {
+          console.log("Browser blocked closing the tab.");
         }
 
-        // Clear the session and go home
-        localStorage.removeItem("user_id");
-        window.location.href = "/";
+        setTimeout(function () {
+          window.location.replace("about:blank");
+        }, 100);
+      }
+
+      function goToAbout() {
+        const userId = localStorage.getItem("user_id");
+        window.location.href = userId
+          ? `/about?user_id=${userId}&from=chat`
+          : "/about";
       }
 
       function clearQuery() {

@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Session Ended - LLM-Probability</title>
+    <style>
+      body {
+        font-family: "Comic Sans MS", cursive, sans-serif;
+        background-color: #d1f9fa;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        text-align: center;
+      }
+
+      .container {
+        padding: 30px 35px;
+        border-radius: 12px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        background-color: #ffd685;
+        width: 45%;
+        min-width: 300px;
+        max-width: 600px;
+      }
+
+      h2 {
+        color: black;
+        margin-top: 0;
+        margin-bottom: 15px;
+        font-size: 26px;
+      }
+
+      .message {
+        background: #f0f8ff;
+        padding: 15px;
+        border-radius: 6px;
+        font-size: 18px;
+        color: black;
+        margin-bottom: 20px;
+      }
+
+      .hint {
+        font-size: 15px;
+        color: #444;
+        margin: 0;
+      }
+
+      button {
+        width: 200px;
+        padding: 10px 12px;
+        font-size: 17px;
+        border: none;
+        border-radius: 6px;
+        background-color: #007bff;
+        color: white;
+        cursor: pointer;
+        transition: background 0.3s;
+        display: block;
+        margin: 0 auto;
+      }
+
+      button:hover {
+        background-color: #0056b3;
+      }
+
+      @media (max-width: 600px) {
+        .container {
+          width: 85%;
+          padding: 20px;
+        }
+        h2 {
+          font-size: 22px;
+        }
+        button {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>You've exited LLM-Probability</h2>
+
+      <div class="message">
+        <p>
+          Thanks for exploring how AI predicts words! Your session has ended and
+          nothing was saved.
+        </p>
+        <p class="hint">You can safely close this tab now.</p>
+      </div>
+
+      <button type="button" onclick="startOver()">Start a New Session</button>
+    </div>
+
+    <script>
+      // Make sure no session data survives the exit.
+      try {
+        localStorage.removeItem("user_id");
+        sessionStorage.clear();
+      } catch (e) {
+        /* storage unavailable -- nothing to clear */
+      }
+
+      // Try once more to close the tab, in case this page was reached from a
+      // script-opened window. Silently ignored otherwise.
+      window.close();
+
+      function startOver() {
+        window.location.href = "/";
+      }
+    </script>
+  </body>
+</html>

@@ -33,6 +33,26 @@ def study_login():
     """
     return render_template("login.html")
 
+@app.route("/exit")
+def exit_app():
+    """
+    Terminal screen shown after a user exits from the chat page.
+    Browsers block window.close() on tabs the user opened themselves, so this
+    page is the fallback: the session is already cleared and there is no link
+    back into the activity.
+    """
+    return render_template("exit.html")
+
+@app.route("/about")
+def about():
+    """
+    Static About page: project description, authors, publications, GitHub link.
+    Accessible with or without a session; user_id is passed through so the
+    'Back' button can return the user to where they came from.
+    """
+    user_id = request.args.get("user_id")
+    return render_template("about.html", user_id=user_id)
+
 @app.route("/home")
 def home():
     user_id = request.args.get("user_id")

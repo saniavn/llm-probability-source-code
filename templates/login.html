@@ -62,6 +62,30 @@
         background-color: #0056b3;
       }
 
+      #aboutContainer {
+        position: absolute;
+        top: 10px;
+        right: 20px;
+        z-index: 10;
+      }
+
+      #aboutButton {
+        width: auto;
+        margin: 0;
+        padding: 10px;
+        font-size: 14px;
+        font-weight: bold;
+        background-color: #ffa500;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      #aboutButton:hover {
+        background-color: #cc7000;
+      }
+
       .page-title {
         font-size: 48px;
         font-weight: bold;
@@ -74,13 +98,14 @@
         top: 2%;
         left: 50%;
         transform: translateX(-50%);
+        background: transparent;
       }
 
       /* Responsive Design */
       @media (max-width: 600px) {
         .page-title {
           font-size: 28px;
-          width: 80%;
+          width: 95%;
           top: 2%;
         }
 
@@ -96,24 +121,42 @@
           font-size: 16px;
           width: 100%;
         }
+
+        /* Keep the About button compact and pinned top-right on mobile */
+        #aboutButton {
+          font-size: 13px;
+          width: auto;
+          padding: 8px 10px;
+        }
+
+        #aboutContainer {
+          top: 8px;
+          right: 10px;
+        }
       }
     </style>
   </head>
   <body>
+    <div id="aboutContainer">
+      <a href="/about" style="text-decoration: none">
+        <button type="button" id="aboutButton">About</button>
+      </a>
+    </div>
+
     <img
-      src="{{ url_for('static', filename='images/Gemini01.png') }}"
-      alt="Gemini Logo"
+      src="{{ url_for('static', filename='images/chatgptnew.png') }}"
+      alt="LLM-Probability"
       class="page-title"
     />
 
     <div class="container">
       <h2>
-        Welcome to Think Like
-        <img
+        Welcome to LLM-Probability!
+        <!-- <img
           src="{{ url_for('static', filename='images/ChatGPT1.png') }}"
           alt="AI"
           style="vertical-align: middle; width: 50px; height: auto"
-        />!
+        />! -->
       </h2>
 
       <div class="fun-fact">
@@ -128,7 +171,7 @@
 
       <!-- Redirects the user to the auto_login route in app.py -->
       <a href="/auto_login" style="text-decoration: none">
-        <button type="button" id="lets-play-btn">Let's Play</button>
+        <button type="button" id="lets-play-btn">Let's Explore</button>
       </a>
     </div>
   </body>

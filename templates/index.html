@@ -254,8 +254,11 @@
         position: absolute;
         top: 10px;
         right: 20px;
+        display: flex;
+        gap: 8px;
       }
-      #logoutButton {
+      #logoutButton,
+      #aboutButton {
         padding: 10px;
         font-size: 14px;
         font-weight: bold;
@@ -264,9 +267,13 @@
         border: none;
         border-radius: 5px;
         cursor: pointer;
+        margin: 0;
       }
       #logoutButton:hover {
         background-color: #cc0000;
+      }
+      #aboutButton:hover {
+        background-color: #cc7000;
       }
       canvas {
         transition: all 0.5s ease-in-out;
@@ -290,7 +297,8 @@
       Thinking? Change the Context and Find Out!
     </h1>
     <div id="logoutContainer">
-      <button id="logoutButton" onclick="logout()">Log Out</button>
+      <button id="aboutButton" onclick="goToAbout()">About</button>
+      <!-- <button id="logoutButton" onclick="logout()">Log Out</button> -->
     </div>
     <div class="container">
       <div id="inputContainer">
@@ -432,6 +440,13 @@
         // Clear local storage and redirect to splash screen
         localStorage.removeItem("user_id");
         window.location.href = "/";
+      }
+
+      function goToAbout() {
+        const userId = localStorage.getItem("user_id");
+        window.location.href = userId
+          ? `/about?user_id=${userId}&from=home`
+          : "/about";
       }
 
       function enablePredictButton() {
