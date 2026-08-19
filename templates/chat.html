@@ -410,16 +410,544 @@
           min-height: 0;
         }
       }
+
+      .top-header {
+        width: 100%;
+        max-width: 1400px;
+        margin: 0 auto 10px;
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr);
+        align-items: center;
+        gap: 18px;
+      }
+
+      .top-nav {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: nowrap;
+      }
+
+      .top-nav .nav-tab {
+        height: 44px;
+        min-height: 44px;
+        padding: 0 14px;
+        margin: 0;
+        border-radius: 8px;
+        border: 3px solid #49ad59;
+        font-family: inherit;
+        font-size: 17px;
+        font-weight: bold;
+        line-height: 1;
+        white-space: nowrap;
+        cursor: pointer;
+      }
+
+      .top-nav .nav-tab.active {
+        background-color: #4caf50;
+        border-color: #4caf50;
+        color: white;
+        cursor: default;
+      }
+
+      .top-nav .nav-tab.inactive {
+        background-color: white;
+        color: #333;
+      }
+
+      .top-nav .nav-tab.inactive:hover {
+        background-color: #f7fff7;
+      }
+
+      .top-nav .nav-tab.about-tab {
+        background-color: #ffa000;
+        border-color: #ffa000;
+        color: white;
+      }
+
+      .top-nav .nav-tab.about-tab:hover {
+        background-color: #e89000;
+        border-color: #e89000;
+      }
+
+      .top-header h1.page-title {
+        margin: 0 !important;
+        padding: 0 !important;
+        text-align: center;
+        width: 100%;
+      }
+
+      @media (min-width: 901px) {
+        html {
+          height: 100%;
+        }
+
+        body {
+          height: 100vh;
+          height: 100dvh;
+          padding: 10px 16px 12px;
+          overflow: hidden;
+        }
+
+        .container {
+          flex: 1 1 auto;
+          min-height: 0;
+          height: auto;
+          gap: 14px;
+          padding: 0 8px;
+        }
+      }
+
+      @media (max-width: 900px) {
+        .top-header {
+          grid-template-columns: 1fr;
+          gap: 8px;
+          margin-bottom: 8px;
+        }
+
+        .top-nav {
+          justify-content: flex-start;
+          flex-wrap: wrap;
+        }
+
+        .top-nav .nav-tab {
+          height: 40px;
+          min-height: 40px;
+          padding: 0 12px;
+          font-size: 16px;
+        }
+      }
+      #paramContainer > p:nth-of-type(2) {
+        margin-top: 40px !important;
+      }
+      @media (max-width: 560px) {
+        .top-nav {
+          width: 100%;
+          gap: 6px;
+        }
+
+        .top-nav .nav-tab {
+          flex: 1 1 auto;
+          height: 38px;
+          min-height: 38px;
+          padding: 0 8px;
+          font-size: 14px;
+        }
+      }
+
+      /* Compact the Chat page without changing its behavior */
+      @media (min-width: 901px) {
+        #paramContainer,
+        #queryContainer {
+          height: 100%;
+          min-height: 0;
+          overflow-y: auto;
+          overflow-x: hidden;
+        }
+
+        #paramContainer {
+          padding: 12px;
+        }
+
+        #queryContainer {
+          padding: 14px;
+        }
+      }
+
+      .top-header {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        max-width: 1400px;
+        min-height: 46px;
+        margin: 0 auto 12px;
+        padding: 0;
+      }
+
+      .top-nav {
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        flex-wrap: nowrap;
+      }
+
+      .top-nav .nav-tab {
+        height: 38px;
+        min-height: 38px;
+        padding: 0 11px;
+        margin: 0;
+        border-radius: 7px;
+        border-width: 2px;
+        font-size: 14px;
+        font-weight: bold;
+        line-height: 1;
+        white-space: nowrap;
+      }
+
+      .top-header h1.page-title {
+        width: auto;
+        max-width: 60%;
+        margin: 0 !important;
+        padding: 0 !important;
+        text-align: center;
+        font-size: clamp(22px, 2.3vw, 30px);
+        line-height: 1.15;
+      }
+
+      @media (max-width: 900px) {
+        .top-header {
+          flex-direction: column;
+          align-items: stretch;
+          gap: 8px;
+          min-height: 0;
+        }
+
+        .top-nav {
+          position: static;
+          transform: none;
+          align-self: flex-start;
+          flex-wrap: wrap;
+        }
+
+        .top-header h1.page-title {
+          align-self: center;
+          max-width: 100%;
+        }
+      }
+
+      @media (max-width: 560px) {
+        .top-nav {
+          width: 100%;
+        }
+
+        .top-nav .nav-tab {
+          flex: 1 1 auto;
+          height: 36px;
+          min-height: 36px;
+          padding: 0 7px;
+          font-size: 13px;
+        }
+
+        .top-header h1.page-title {
+          font-size: 21px;
+        }
+      }
+
+      .top-header {
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr) auto;
+        align-items: center;
+        width: 100%;
+        max-width: 1400px;
+        margin: 0 auto 12px;
+        min-height: 46px;
+        gap: 14px;
+      }
+
+      .top-nav {
+        position: static;
+        transform: none;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        flex-wrap: nowrap;
+        justify-self: start;
+      }
+
+      .top-header h1.page-title {
+        grid-column: 2;
+        justify-self: center;
+        width: auto;
+        max-width: 100%;
+        margin: 0 !important;
+        padding: 0 !important;
+        text-align: center;
+        white-space: nowrap;
+      }
+
+      @media (max-width: 900px) {
+        .top-header {
+          grid-template-columns: auto minmax(0, 1fr);
+          gap: 10px;
+        }
+
+        .top-nav {
+          justify-self: start;
+          flex-wrap: nowrap;
+        }
+
+        .top-header h1.page-title {
+          grid-column: 2;
+          justify-self: center;
+          white-space: normal;
+        }
+      }
+
+      @media (max-width: 700px) {
+        .top-header {
+          grid-template-columns: 1fr;
+        }
+
+        .top-nav {
+          grid-column: 1;
+          justify-self: start;
+          flex-wrap: wrap;
+        }
+
+        .top-header h1.page-title {
+          grid-column: 1;
+          justify-self: center;
+        }
+      }
+
+      html {
+        -webkit-text-size-adjust: 100%;
+      }
+
+      .top-header {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: stretch !important;
+        justify-content: flex-start !important;
+        width: 100% !important;
+        max-width: 1400px !important;
+        min-height: 0 !important;
+        margin: 0 auto 12px !important;
+        padding: 0 !important;
+        gap: 0 !important;
+      }
+
+      .top-nav {
+        position: static !important;
+        transform: none !important;
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: flex-start !important;
+        align-self: flex-start !important;
+        flex-wrap: nowrap !important;
+        width: auto !important;
+        margin: 0 0 10px 0 !important;
+        gap: 6px !important;
+      }
+
+      .top-nav .nav-tab {
+        flex: 0 0 auto !important;
+        height: 38px !important;
+        min-height: 38px !important;
+        padding: 0 11px !important;
+        margin: 0 !important;
+        border-radius: 7px !important;
+        border-width: 2px !important;
+        font-size: 14px !important;
+        line-height: 1 !important;
+        white-space: nowrap !important;
+        -webkit-appearance: none;
+        appearance: none;
+      }
+
+      .top-header h1.page-title {
+        position: static !important;
+        display: block !important;
+        align-self: stretch !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 0 12px !important;
+        text-align: center !important;
+        white-space: normal !important;
+        font-size: clamp(22px, 2.3vw, 30px) !important;
+        line-height: 1.2 !important;
+        overflow-wrap: break-word;
+      }
+
+      /* Safari and smaller laptop windows */
+      @media screen and (max-width: 1000px) {
+        .top-nav {
+          flex-wrap: wrap !important;
+          margin-bottom: 8px !important;
+        }
+
+        .top-header h1.page-title {
+          font-size: clamp(20px, 3vw, 27px) !important;
+        }
+      }
+
+      @media screen and (max-width: 560px) {
+        .top-nav {
+          width: 100% !important;
+          gap: 5px !important;
+        }
+
+        .top-nav .nav-tab {
+          height: 36px !important;
+          min-height: 36px !important;
+          padding: 0 8px !important;
+          font-size: 13px !important;
+        }
+
+        .top-header h1.page-title {
+          padding: 0 4px !important;
+          font-size: 20px !important;
+        }
+      }
+
+      @media screen and (min-width: 901px) {
+        html,
+        body {
+          height: 100%;
+          min-height: 0;
+        }
+
+        body {
+          height: 100vh;
+          height: 100dvh;
+          overflow: hidden !important;
+          padding: 10px 16px 12px !important;
+        }
+
+        .top-header {
+          flex: 0 0 auto;
+          margin-bottom: 8px !important;
+        }
+
+        .top-nav {
+          margin-bottom: 6px !important;
+        }
+
+        .top-header h1.page-title {
+          font-size: clamp(22px, 2.1vw, 28px) !important;
+          line-height: 1.1 !important;
+        }
+
+        .container {
+          flex: 1 1 auto !important;
+          min-height: 0 !important;
+          height: auto !important;
+          overflow: hidden !important;
+          gap: 14px !important;
+          padding: 0 8px !important;
+        }
+
+        #paramContainer,
+        #queryContainer {
+          height: 100% !important;
+          min-height: 0 !important;
+          overflow: hidden !important;
+        }
+
+        #paramContainer {
+          padding: 12px !important;
+        }
+
+        #queryContainer {
+          padding: 14px !important;
+        }
+
+        #paramContainer h2,
+        #queryContainer h2 {
+          margin-top: 0 !important;
+          margin-bottom: 10px !important;
+        }
+
+        #paramContainer p {
+          margin-top: 6px !important;
+          margin-bottom: 8px !important;
+          line-height: 1.25 !important;
+        }
+
+        .response-container {
+          min-height: 0 !important;
+          flex: 1 1 auto !important;
+        }
+
+        #responseDisplay {
+          min-height: 0 !important;
+          height: 100% !important;
+          overflow-y: auto !important;
+        }
+      }
+
+      @media screen and (min-width: 901px) and (max-height: 760px) {
+        #paramContainer p {
+          font-size: 12px !important;
+        }
+
+        #queryContainer {
+          padding: 12px !important;
+        }
+      }
+
+      #paramContainer p {
+        margin-top: 0 !important;
+        margin-bottom: 10px !important;
+        line-height: 1.4 !important;
+      }
+
+      #paramContainer .param-group {
+        margin-top: 0 !important;
+        margin-bottom: 20px !important;
+      }
+
+      #paramContainer .param-group:last-child {
+        margin-bottom: 0 !important;
+      }
+
+      /* Keep question input and its buttons together. */
+      #queryContainer .input-group {
+        gap: 8px !important;
+        margin-bottom: 16px !important;
+      }
+
+      #queryContainer .input-group button {
+        margin-left: 0 !important;
+      }
+
+      .response-container h3 {
+        margin-top: 0 !important;
+        margin-bottom: 8px !important;
+      }
+
+      @media screen and (min-width: 901px) and (max-height: 760px) {
+        #paramContainer p {
+          font-size: 12px !important;
+          margin-top: 8px !important;
+          margin-bottom: 28px !important;
+          line-height: 1.35 !important;
+        }
+
+        #paramContainer .param-group {
+          margin-bottom: 14px !important;
+        }
+
+        #queryContainer .input-group {
+          margin-bottom: 12px !important;
+        }
+      }
     </style>
   </head>
   <body>
-    <h1 class="page-title">Chat with AI</h1>
+    <header class="top-header">
+      <nav class="top-nav" aria-label="Page navigation">
+        <button type="button" class="nav-tab inactive" onclick="goBack()">
+          Spin Page
+        </button>
+        <button type="button" class="nav-tab active" aria-current="page">
+          Chat Page
+        </button>
+        <button type="button" class="nav-tab about-tab" onclick="goToAbout()">
+          About
+        </button>
+      </nav>
 
-    <div id="logoutContainer">
-      <button id="aboutButton" onclick="goToAbout()">About</button>
-      <!-- <button id="logoutButton" onclick="logout()">Exit</button> -->
-    </div>
-
+      <h1 class="page-title">Chat with AI</h1>
+    </header>
     <div class="container">
       <div id="paramContainer">
         <h2>Parameter Guide</h2>
@@ -483,11 +1011,6 @@
           <div id="responseDisplay"></div>
         </div>
       </div>
-    </div>
-    <div id="backButtonContainer">
-      <button id="backButton" onclick="goBack()">
-        ← Back to Next Token Generation
-      </button>
     </div>
     <script>
       localStorage.setItem("user_id", "{{ user_id }}");

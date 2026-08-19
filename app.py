@@ -172,7 +172,7 @@ def ask():
         
         outputs = model.generate(
             inputs['input_ids'], 
-            max_new_tokens=200, 
+            max_new_tokens=50, 
             do_sample=should_sample,       
             temperature=safe_temperature,  
             top_p=top_p_value, 
