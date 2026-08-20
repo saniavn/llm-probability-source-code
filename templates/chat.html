@@ -371,11 +371,11 @@
       }
 
       /*
-        Desktop: fit the whole page in the window, no page scrollbar.
-        Placed last so it wins over the max-width blocks above.
-        If the window is unusually short, the panels scroll internally
-        rather than the whole page.
-      */
+              Desktop: fit the whole page in the window, no page scrollbar.
+              Placed last so it wins over the max-width blocks above.
+              If the window is unusually short, the panels scroll internally
+              rather than the whole page.
+            */
       @media (min-width: 901px) {
         html {
           height: 100%;
@@ -384,7 +384,7 @@
           height: 100vh;
           height: 100dvh;
           padding: 10px 20px 12px;
-          overflow: hidden;
+          overflow: auto;
         }
         h1.page-title {
           margin-bottom: 8px;
@@ -398,7 +398,7 @@
         #queryContainer {
           height: 100%;
           overflow-y: auto;
-          overflow-x: hidden;
+          overflow-x: auto;
         }
         #paramContainer p {
           font-size: 13px;
@@ -801,14 +801,16 @@
       @media screen and (min-width: 901px) {
         html,
         body {
-          height: 100%;
-          min-height: 0;
+          height: auto;
+          min-height: 100%;
         }
 
         body {
-          height: 100vh;
-          height: 100dvh;
-          overflow: hidden !important;
+          min-height: 100vh;
+          min-height: 100dvh;
+          height: auto;
+          overflow-x: hidden !important;
+          overflow-y: auto !important;
           padding: 10px 16px 12px !important;
         }
 
@@ -830,18 +832,17 @@
           flex: 1 1 auto !important;
           min-height: 0 !important;
           height: auto !important;
-          overflow: hidden !important;
+          overflow: visible !important;
           gap: 14px !important;
           padding: 0 8px !important;
         }
 
         #paramContainer,
         #queryContainer {
-          height: 100% !important;
+          height: auto !important;
           min-height: 0 !important;
-          overflow: hidden !important;
+          overflow: visible !important;
         }
-
         #paramContainer {
           padding: 12px !important;
         }
@@ -930,6 +931,11 @@
           margin-bottom: 12px !important;
         }
       }
+      .input-instruction {
+        width: 100%;
+        text-align: left;
+        margin: 0 0 8px 0;
+      }
     </style>
   </head>
   <body>
@@ -994,6 +1000,7 @@
 
       <div id="queryContainer">
         <h2>Ask AI a question</h2>
+        <p class="input-instruction">Type your question and press Enter.</p>
         <div class="input-group">
           <input
             type="text"
@@ -1003,7 +1010,7 @@
             required
             autocomplete="off"
           />
-          <button id="submitBtn" onclick="sendQuery()">Submit</button>
+          <!-- <button id="submitBtn" onclick="sendQuery()">Submit</button> -->
           <button class="clear-button" onclick="clearQuery()">Clear</button>
         </div>
         <div class="response-container">
@@ -1051,7 +1058,7 @@
         const userId = localStorage.getItem("user_id");
 
         if (!query || !userId || userId === "null") {
-          alert("Please enter a question and make sure you're logged in.");
+          alert("Please enter a question.");
           return;
         }
 
@@ -1082,6 +1089,15 @@
             alert("Something went wrong. Try again.");
           });
       }
+
+      document
+        .getElementById("queryInput")
+        .addEventListener("keydown", function (event) {
+          if (event.key === "Enter") {
+            event.preventDefault();
+            sendQuery();
+          }
+        });
 
       function goBack() {
         const userId = localStorage.getItem("user_id");

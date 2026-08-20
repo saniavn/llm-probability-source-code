@@ -873,14 +873,16 @@
       @media screen and (min-width: 901px) {
         html,
         body {
-          height: 100%;
-          min-height: 0;
+          height: auto;
+          min-height: 100%;
         }
 
         body {
-          height: 100vh;
-          height: 100dvh;
-          overflow: hidden !important;
+          height: auto;
+          min-height: 100vh;
+          min-height: 100dvh;
+          overflow-x: hidden !important;
+          overflow-y: auto !important;
           padding: 10px 16px 12px !important;
         }
 
@@ -902,16 +904,16 @@
           flex: 1 1 auto !important;
           min-height: 0 !important;
           height: auto !important;
-          overflow: hidden !important;
+          overflow: visible !important;
           gap: 16px !important;
           padding: 0 8px !important;
         }
 
         #inputContainer,
         #chartContainer {
-          height: 100% !important;
+          height: auto !important;
           min-height: 0 !important;
-          overflow: hidden !important;
+          overflow: visible !important;
         }
 
         #inputContainer {
@@ -976,7 +978,7 @@
           padding: 10px !important;
           gap: 12px !important;
           margin-bottom: 0 !important;
-          overflow: hidden !important;
+          overflow: auto !important;
         }
 
         .chart-wrapper {
