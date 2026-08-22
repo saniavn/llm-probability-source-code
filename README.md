@@ -10,4 +10,5 @@ You can find the full curriculum, including slide decks, worksheets, and offline
 **Curriculum Repository:** [LLM-Probability Educational Materials](https://github.com/saniavn/LLM-Probability/tree/main)
 
 
-
+## Credits
+This work was developed by [Saniya Vahedian Movahed](https://saniavn.github.io/) and [David Touretzky](https://www.cs.cmu.edu/~dst/).
