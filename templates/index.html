@@ -1087,11 +1087,10 @@
         animation: pulse-attention 1.5s infinite;
       }
 
-
-      /* Keep the three action buttons centered on one row on normal screens */
+      /* Keep the action buttons centered and let them wrap when space gets tight */
       .predict-button-container {
         display: flex !important;
-        flex-wrap: nowrap !important;
+        flex-wrap: wrap !important;
         justify-content: center !important;
         align-items: center !important;
         gap: 8px !important;
@@ -1102,14 +1101,17 @@
         padding: 10px 14px !important;
         font-size: 15px !important;
         white-space: nowrap !important;
-        flex: 0 0 auto !important;
+        flex: 0 1 auto !important;
+        max-width: 100% !important;
+      }
+
+      @media screen and (max-width: 700px) {
+        .predict-button-container button {
+          flex: 0 1 auto !important;
+        }
       }
 
       @media screen and (max-width: 520px) {
-        .predict-button-container {
-          flex-wrap: wrap !important;
-        }
-
         .predict-button-container button {
           flex: 1 1 100% !important;
         }
