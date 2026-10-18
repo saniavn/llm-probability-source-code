@@ -1381,6 +1381,25 @@
         return window.innerWidth <= 560;
       }
 
+      function formatProbability(percent, allPercentages = []) {
+        if (percent > 0 && percent < 0.01) return "<0.01%";
+
+        // Avoid claiming exactly 100% if other words still have a chance
+        const hasOtherPositive = allPercentages.some(
+          (p) => p > 0 && p !== percent,
+        );
+        if (percent > 99.99 && hasOtherPositive) return ">99.99%";
+
+        // Never round 99.5–99.99% upward to 100%.
+        if (percent >= 99.5 && percent < 100) {
+          return Math.round(percent * 100) / 100 + "%";
+        }
+
+        // Whole numbers for larger values; two decimals for smaller values
+        if (percent >= 5) return Math.round(percent) + "%";
+        return Math.round(percent * 100) / 100 + "%";
+      }
+
       function updateChartWithNewParameters() {
         if (originalTokens.length === 0) return;
 
@@ -1389,12 +1408,11 @@
           0.01,
         );
         const pValue = parseFloat(document.getElementById("pValue").value);
-        const targetP = pValue * 100;
 
-        let validTokens = [];
-        let validProbs = [];
+        const validTokens = [];
+        const validProbs = [];
         for (let i = 0; i < originalTokens.length; i++) {
-          let formatted = formatToken(originalTokens[i]);
+          const formatted = formatToken(originalTokens[i]);
           if (formatted.trim() !== "") {
             validTokens.push(formatted);
             validProbs.push(originalProbabilities[i]);
@@ -1402,78 +1420,40 @@
         }
         if (validTokens.length === 0) return;
 
-        let tempProbs = validProbs.map((p) =>
-          Math.exp(Math.log(p + 1e-9) / temperature),
-        );
-        let sumTempProbs = tempProbs.reduce((a, b) => a + b, 0);
-        let normalizedProbs = tempProbs.map((p) => p / sumTempProbs);
+        // Educational view: top-p chooses a fixed set of words from
+        // the original distribution (temperature = 1).
+        const combined = validTokens
+          .map((token, i) => ({ token, prob: Math.max(0, validProbs[i]) }))
+          .sort((a, b) => b.prob - a.prob);
 
-        let exactPercentages = normalizedProbs.map((p) => p * 100);
-        let roundedPercentages = exactPercentages.map((p) => Math.floor(p));
-        let remainderDiff = Math.round(
-          100 - roundedPercentages.reduce((a, b) => a + b, 0),
-        );
-
-        let remainders = exactPercentages
-          .map((p, i) => ({ index: i, remainder: p - Math.floor(p) }))
-          .sort((a, b) => b.remainder - a.remainder);
-
-        for (let i = 0; i < remainderDiff; i++) {
-          if (i < remainders.length) {
-            roundedPercentages[remainders[i].index] += 1;
-          }
-        }
-
-        let combined = validTokens
-          .map((token, i) => ({
-            token: token,
-            roundedProb: roundedPercentages[i],
-            exactProb: exactPercentages[i],
-          }))
-          .sort((a, b) => b.roundedProb - a.roundedProb);
-
-        let cumulativeProb = 0;
-        const filteredCombined = [];
+        const baseSum = combined.reduce((sum, item) => sum + item.prob, 0);
+        const candidates = [];
+        let cumulative = 0;
         for (const item of combined) {
-          filteredCombined.push(item);
-          cumulativeProb += item.roundedProb;
-          if (cumulativeProb >= targetP) break;
+          candidates.push(item);
+          cumulative += baseSum > 0 ? item.prob / baseSum : 1 / combined.length;
+          if (pValue < 1 && cumulative >= pValue) break;
         }
 
-        if (filteredCombined.length === 0 && combined.length > 0) {
-          filteredCombined.push(combined[0]);
-        }
-
-        const finalTokens = filteredCombined.map((item) => item.token);
-        const survivingRoundedProbs = filteredCombined.map(
-          (item) => item.roundedProb,
+        // Temperature ONLY reshapes probabilities of the selected words.
+        // Subtracting the maximum score avoids overflow for low temperatures.
+        const scores = candidates.map(
+          (item) => Math.log(item.prob + 1e-9) / temperature,
         );
-        const survivingExactProbs = filteredCombined.map(
-          (item) => item.exactProb,
-        );
-
-        const finalSum = survivingRoundedProbs.reduce((a, b) => a + b, 0);
-
-        let reNormExact = survivingRoundedProbs.map(
-          (p) => (p / finalSum) * 100,
+        const maxScore = Math.max(...scores);
+        const weights = scores.map((score) => Math.exp(score - maxScore));
+        const totalWeight = weights.reduce((sum, weight) => sum + weight, 0);
+        const percentages = weights.map(
+          (weight) => (weight / totalWeight) * 100,
         );
 
-        let finalDisplayData = reNormExact.map((p) => Math.floor(p));
-        let finalDiff = Math.round(
-          100 - finalDisplayData.reduce((a, b) => a + b, 0),
+        // Keep full precision for the charts and Spin to Choose.
+        // Round only the percentages displayed to students.
+        renderChart(
+          candidates.map((item) => item.token),
+          percentages,
+          percentages,
         );
-
-        let finalRemainders = reNormExact
-          .map((p, i) => ({ index: i, remainder: p - Math.floor(p) }))
-          .sort((a, b) => b.remainder - a.remainder);
-
-        for (let i = 0; i < finalDiff; i++) {
-          if (i < finalRemainders.length) {
-            finalDisplayData[finalRemainders[i].index] += 1;
-          }
-        }
-
-        renderChart(finalTokens, finalDisplayData, survivingExactProbs);
       }
 
       document
@@ -1543,12 +1523,10 @@
                     ? context.parsed.y
                     : context.parsed;
 
-                let formattedValue =
-                  displayValue % 1 === 0
-                    ? displayValue
-                    : displayValue.toFixed(1);
-
-                return "Probability: " + formattedValue + "%";
+                return (
+                  "Probability: " +
+                  formatProbability(displayValue, context.dataset.data)
+                );
               },
             },
           };
@@ -1593,9 +1571,7 @@
                     return 5;
                   },
                   formatter: function (value, context) {
-                    if (value > 0 && value < 0.1) return "<0.1%";
-                    if (value % 1 !== 0) return value.toFixed(1) + "%";
-                    return value + "%";
+                    return formatProbability(value, context.dataset.data);
                   },
                   display: function (context) {
                     // Hide crowded labels on very small screens
@@ -1667,10 +1643,10 @@
                 tooltip: percentTooltip,
                 datalabels: {
                   color: "black",
-                  formatter: function (value) {
+                  formatter: function (value, context) {
                     const cutoff = isNarrowScreen() ? 8 : 5;
                     if (value >= cutoff) {
-                      return Math.round(value) + "%";
+                      return formatProbability(value, context.dataset.data);
                     } else {
                       return "";
                     }
