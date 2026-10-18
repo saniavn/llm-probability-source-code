@@ -99,7 +99,7 @@ def get_next_word_predictions(model_name, text, top_k=20, temperature=1.0, p_val
 
     top_logits, top_indices = torch.topk(logits, top_k)
     scaled_top_logits = top_logits / current_temp
-    top_probs = torch.softmax(scaled_top_logits, dim=-1)
+    top_probs = torch.softmax(scaled_top_logits.float(), dim=-1)
     top_tokens = tokenizer.convert_ids_to_tokens(top_indices.tolist())
 
     cleaned_tokens, cleaned_probs, cleaned_ids = [], [], []
@@ -107,7 +107,8 @@ def get_next_word_predictions(model_name, text, top_k=20, temperature=1.0, p_val
         cleaned = clean_token(token)
         if cleaned:
             cleaned_tokens.append(cleaned)
-            cleaned_probs.append(prob * 100)
+            display_prob = prob * 100 
+            cleaned_probs.append(display_prob)
             cleaned_ids.append(token_id)
         
     if not cleaned_tokens and top_tokens:
