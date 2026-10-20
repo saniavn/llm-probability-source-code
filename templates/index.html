@@ -1594,13 +1594,10 @@
                 tooltip: percentTooltip,
                 datalabels: {
                   color: "black",
-                  anchor: function (context) {
-                    let value = context.dataset.data[context.dataIndex];
-                    return value > 90 ? "center" : "end";
-                  },
+                  anchor: "end",
                   align: function (context) {
                     let value = context.dataset.data[context.dataIndex];
-                    return value > 90 ? "right" : "end";
+                    return value > 90 ? 15 : "end";
                   },
                   offset: function (context) {
                     let value = context.dataset.data[context.dataIndex];
@@ -1608,7 +1605,7 @@
                       const bar = context.chart.getDatasetMeta(
                         context.datasetIndex,
                       ).data[context.dataIndex];
-                      return bar.width / 2 + 5;
+                      return bar.width / 2;
                     }
                     let totalBars = context.chart.data.labels.length;
                     if (totalBars > 12) {
